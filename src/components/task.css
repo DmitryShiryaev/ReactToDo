@@ -1,0 +1,41 @@
+
+div.task{
+    width: 310px;
+    height: 36px;
+	border: 1px solid black;	
+}
+
+div.task > input,div.task > label {
+	height: 20px;
+}
+div.taks > input:text{
+	width: 100px;
+	display: inline-block;	
+	background:inherit;
+}
+
+div.task > input.taskName.disabled{
+	border: none;	
+	padding:1px;	
+}
+
+div.taks > label{
+	height:100%;
+}
+
+div.task > input:checkbox{
+	height: 20px;
+	margin-top:10px;
+}
+
+div.task > div.remove{
+	display: inline-block;
+	width:20px;
+	height:100%;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAB+ElEQVRYhb2Xz07CQBDGv9mtFAKRi1wwEG/EV9B40DfgxNPgQZ6Gk49gQgivYLyWeCBoomKiQJfxYEqgbLe72+gc28n3/Tr7Z6aAJu7PO/37805f984nTHpSl0yMOwKue42TzfDldVTU3KQndcmVdcxHmw1iIW6KQNjoyXRy/XvJV1FEZ29vNK9WeRkEXhC2ejKdfDGdUkkpSGY0FwsvCBc9uVumqyiiklJbIR8InXla7/n4mJPlEHlfU1IKF9Mp1b+XTIw70+kwmWeFHL68jnqNk00sxM28WuXmYkGSeT/JohI25ispMWm1+DMsERNuu49PAwkACcQyCLwgXMzfy+HWHADI9ysSIQDwNT8A8IEAAF9zQHMTuizHrFbjUClcepprK+BaCeD3pPiYayuQhG0l0s9czI0AthBFzHMB0hCzWo1PDRArKTFut/nD0hwAcm/Cv47cCuxuxqzdvhVjxqlj7zACeN3tjg0sE8D2GCohDk6CC4QWwNZ83G5zVK9DtzFtITJnQpvr9aMc0iqQVKSLamdCp2ZEePDtonsAvi21aCvPnAltzJN3RSCMM6GNuQ+E00zocrd3H58GTLh9L4c0abU46ZamMM6Ero0lrxJOM6ESwtncBJGlp50JK+uYAeDrKHA2d9XbW6Td5YilKGReSO8/f89/AB73d04njqiTAAAAAElFTkSuQmCC');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size:20px;
+	float:right;
+}
+
