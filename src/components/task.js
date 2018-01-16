@@ -6,7 +6,7 @@ class Task extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		
+		this.created = this.props.created || Date.now();
 		this.state = {		
 			completed: this.props.completed || false,
 			edit: this.props.edit || false,
@@ -46,7 +46,7 @@ class Task extends React.Component {
 		}); 
 		
 		this.props.onUpdate(this.props.index,this.state.text);
-		this.props.onSave(this.toJson);
+		this.props.onSave(this.toJson());
 	}
 	
 	handleFocus(){

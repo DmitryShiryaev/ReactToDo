@@ -18,7 +18,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 class App extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props);		
 		
 		//this.storageKey = this.props.storageKey;
 		this.state = {
@@ -28,8 +28,7 @@ class App extends React.Component {
 		this.handleRemoveTask = this.handleRemoveTask.bind(this);
 		this.handleAddTask = this.handleAddTask.bind(this);
 		this.handleUpdateList = this.handleUpdateList.bind(this);
-		this.saveTask = this.saveTask.bind(this);
-		this.toStorage = this.toStorage.bind(this);
+		this.saveList = this.saveList.bind(this);
 		
 	}
 	
@@ -54,7 +53,7 @@ class App extends React.Component {
 					list = {this.state.taskList}
 					removeTask = {this.handleRemoveTask}
 					updateList = {this.handleUpdateList}
-					toStorage = (this.saveTask)
+					toStorage = {this.saveList}
 					
 				/>
 			</div>
@@ -71,20 +70,21 @@ class App extends React.Component {
 		let arr = this.state.taskList;
 		arr.splice(id,1);
 		this.setState({taskList: arr});
-		this.toStorage();
+		this.saveList();
 	}
 
 	handleAddTask(taskName){
 		let arr = this.state.taskList;
 		this.binaryInsert(taskName,arr);		
 		this.setState({taskList:arr});    
-		this.toStorage();
+		this.saveList();
 	}	
 	
-	toStorage(){
-		let arr = this.state.taskList;
-		
-		localStorage.setItem(this.props.storageKey,this.state.taskList);
+	saveList(res){		
+		if (! res)
+			return;
+		let storage
+		localStorage.setItem(this.props.storageKey,res);
 	}
 	
 	binaryInsert(value,arr,startPos,endPos){
@@ -124,7 +124,9 @@ class App extends React.Component {
 }
 
 //get storage items
-
 const storageKey = "taskList";
-ReactDOM.render(<App list = {localStorage.getItem(storageKey)} storageKey = {storageKey}/>, document.getElementById('root'));
+let  = localStorage.localStorage(storageKey);
+
+
+ReactDOM.render(<App list = {} storageKey = {storageKey}/>, document.getElementById('root'));
 registerServiceWorker();

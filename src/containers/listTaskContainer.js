@@ -5,10 +5,11 @@ import Task from "../components/task.js"
 class ListTaskContainer extends React.Component{
 
 	constructor(props) {
-		super(props)	
+		super(props);
+		
 		this.handleCloseTask = this.handleCloseTask.bind(this);
 		this.handleUpdateTask = this.handleUpdateTask.bind(this);
-		this.saveTask = this.saveTask.bind(this);
+		this.toStorage = this.toStorage.bind(this);
 	}
 		
 	render(){
@@ -23,7 +24,7 @@ class ListTaskContainer extends React.Component{
 								text = {value} 
 								onClose = {this.handleCloseTask}
 								onUpdate = {this.handleUpdateTask}
-								onSave = {this.saveTask}
+								onSave = {this.toStorage}
 							/>
 						</li>
 					))	
@@ -33,9 +34,10 @@ class ListTaskContainer extends React.Component{
 		)
 	}
 	
-	saveTask{
-		this.props.toStorage();
+	toStorage(obj){
+		this.props.toStorage(obj);
 	}
+	
 	handleCloseTask(id){
 		this.props.removeTask(id)
 	}
