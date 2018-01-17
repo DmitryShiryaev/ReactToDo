@@ -19,7 +19,7 @@ import registerServiceWorker from './registerServiceWorker';
 class App extends React.Component {
 	constructor(props) {
 		super(props);		
-		
+		this.backupList = this.props.details || [];
 		//this.storageKey = this.props.storageKey;
 		this.state = {
 			taskList: this.props.list || [],
@@ -51,6 +51,7 @@ class App extends React.Component {
 				{/* Show Task list */}
 				<ListTaskContainer
 					list = {this.state.taskList}
+					details = {this.backupList}
 					removeTask = {this.handleRemoveTask}
 					updateList = {this.handleUpdateList}
 					toStorage = {this.saveList}
@@ -61,30 +62,40 @@ class App extends React.Component {
 	}
 		
 
-	handleUpdateList(id,value){
-		this.handleRemoveTask(id);
-		this.handleAddTask(value);
-		
+	handleUpdateList(id,value){			
+		let taskDetail = this.backupList[id];
+		this.handleRemoveTask(id);		
+		this.handleAddTask(value,taskDetail);				
 	}
+	
 	handleRemoveTask(id){
 		let arr = this.state.taskList;
 		arr.splice(id,1);
-		this.setState({taskList: arr});
-		this.saveList();
+		this.backupList.splice(id,1);
+		this.setState({taskList: arr});		
+		this.backup();
 	}
 
-	handleAddTask(taskName){
+	handleAddTask(taskName,backupData){
+		backupData = backupData || {};
 		let arr = this.state.taskList;
-		this.binaryInsert(taskName,arr);		
-		this.setState({taskList:arr});    
-		this.saveList();
+		let index = this.binaryInsert(taskName,arr);				
+		this.backupList.splice(index,0,backupData);
+		this.setState({taskList:arr});				
+		this.backup();
 	}	
 	
-	saveList(res){		
+	saveList(index,res){		
 		if (! res)
-			return;
-		let storage
-		localStorage.setItem(this.props.storageKey,res);
+			return;		
+		
+		this.backupList[index] = res;
+		this.backup();
+	}
+	
+	backup(){
+		localStorage.setItem(this.props.storageKey[0],JSON.stringify(this.state.taskList));
+		localStorage.setItem(this.props.storageKey[1],JSON.stringify(this.backupList));
 	}
 	
 	binaryInsert(value,arr,startPos,endPos){
@@ -96,37 +107,56 @@ class App extends React.Component {
 		// empty arr
 		if(length === 0){
 			arr.push(value);
-			return;
+			return 0;
 		}	
 		
-		// add to the end
+		
 		if(value > arr[start]){
 			arr.splice(start, 0, value);
-			return;
+			return start;
 		}
 
-		// add to the begin
+		
 		if(value < arr[end]){
 			arr.splice(end + 1, 0, value);
-			return;
+			return end + 1;
 		}
 		
 		if(value < arr[m]){
-			this.binaryInsert(value,arr,m + 1, end);
-			return;
+			return this.binaryInsert(value,arr,m + 1, end);		
 		}
 
 		if(value > arr[m]){
-			this.binaryInsert(value,arr, start, m - 1);
-			return;
+			return this.binaryInsert(value,arr, start, m - 1);			
 		}
 	}
 }
 
 //get storage items
-const storageKey = "taskList";
-let  = localStorage.localStorage(storageKey);
+const storageKey = ["taskList","detailList"];
+let list = {};
+let details = {};
 
+try{
+	 list = JSON.parse(localStorage.getItem(storageKey[0]));
+}
+catch(e){
+	console.error("Parse failed" + JSON.stringify(e));
+}
 
-ReactDOM.render(<App list = {} storageKey = {storageKey}/>, document.getElementById('root'));
+try{
+	details = JSON.parse(localStorage.getItem(storageKey[1]));
+	/*try{
+		for(let i in details)
+			details[i] = JSON.parse(details[i]);
+	}
+	catch(e){
+		console.error("Parse failed" + JSON.stringify(e));
+	}*/
+}
+catch(e){
+	console.error("Parse failed" + JSON.stringify(e));
+}
+
+ReactDOM.render(<App list={list} details={details} storageKey = {storageKey}/>, document.getElementById('root'));
 registerServiceWorker();

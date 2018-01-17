@@ -18,7 +18,7 @@ class Task extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleChangeBox = this.handleChangeBox.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
-		this.toJson = this.toJson.bind(this);
+		this.toStorage = this.toStorage.bind(this);
 	}
 	
 	
@@ -43,10 +43,9 @@ class Task extends React.Component {
 		this.setState({
 		  edit: false,
 		  text: event.target.value		 
+		},function(){
+			this.props.onUpdate(this.props.index,this.state.text); 								
 		}); 
-		
-		this.props.onUpdate(this.props.index,this.state.text);
-		this.props.onSave(this.toJson());
 	}
 	
 	handleFocus(){
@@ -65,12 +64,15 @@ class Task extends React.Component {
 	handleChangeBox(){
 		this.setState((prevState) => {
 		  return { completed: !prevState.completed}
+		}, function(){
+			this.props.onSave(this.props.index,this.toStorage());
 		}); 
+		
 	}
 	
-	toJson(){			
+	toStorage(){			
 		//console.error(JSON.stringify(Object.assign({'created': this.created},this.state)));	
-		return JSON.stringify(Object.assign(this.state,{'created': this.created}));
+		return Object.assign(this.state,{'created': this.created});
 	}
 
 }

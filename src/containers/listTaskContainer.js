@@ -18,24 +18,27 @@ class ListTaskContainer extends React.Component{
 			<ul>			
 				{	
 					this.props.list.map((value, index) => (
+				
 						<li key={(value + index).toString()}>
 							<Task
 								index = {index} 						
 								text = {value} 
+								created = {(this.props.details[index] && this.props.details[index].created) ? this.props.details[index].created : undefined}
+								completed = {(this.props.details[index] && this.props.details[index].created) ? this.props.details[index].completed : undefined}
 								onClose = {this.handleCloseTask}
 								onUpdate = {this.handleUpdateTask}
 								onSave = {this.toStorage}
 							/>
 						</li>
-					))	
+					),this)	
 				}			
 			</ul>        
 		</div>
 		)
 	}
 	
-	toStorage(obj){
-		this.props.toStorage(obj);
+	toStorage(index,obj){
+		this.props.toStorage(index,obj);
 	}
 	
 	handleCloseTask(id){
